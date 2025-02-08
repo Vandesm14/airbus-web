@@ -15,7 +15,12 @@ export default function App() {
           <Button kind="on" onClick={setMaster} />
         </WithLabel>
         <WithLabel label="START">
-          <Button kind="on" onClick={setStart} avail={master()} />
+          <Button
+            kind="on"
+            onClick={setStart}
+            avail={master()}
+            disabled={!master()}
+          />
         </WithLabel>
       </Group>
     </>

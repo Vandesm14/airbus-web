@@ -1,7 +1,8 @@
 import './Button.scss';
-import { createMemo, createSignal } from 'solid-js';
+import { createEffect, createMemo, createSignal } from 'solid-js';
 
 export type ButtonProps = {
+  disabled?: boolean;
   kind: 'on' | 'off';
 
   avail?: boolean;
@@ -10,6 +11,7 @@ export type ButtonProps = {
   onClick?: (on: boolean) => void;
 };
 export default function Button(props: ButtonProps) {
+  const disabled = () => props.disabled;
   const kind = () => props.kind;
   const avail = () => props.avail;
   const fault = () => props.fault;
@@ -17,7 +19,13 @@ export default function Button(props: ButtonProps) {
 
   const [on, setOn] = createSignal(false);
 
+  createEffect(() => {
+    if (disabled()) setOn(false);
+  });
+
   const handleClick = () => {
+    if (disabled()) return;
+
     setOn((on) => {
       on = !on;
 
