@@ -22,7 +22,13 @@ export default function Button({ kind, avail, fault, onClick }: ButtonProps) {
     });
   };
 
+  const topClass = createMemo(() => ({
+    top: true,
+    fault,
+    avail,
+  }));
   const topText = createMemo(() => (avail ? 'AVAIL' : fault ? 'FAULT' : ''));
+
   const bottomText = createMemo(() =>
     kind === 'on' && on() ? 'ON' : kind === 'off' && !on() ? 'OFF' : ''
   );
@@ -33,7 +39,7 @@ export default function Button({ kind, avail, fault, onClick }: ButtonProps) {
   return (
     <button class="btn" onMouseDown={handleClick}>
       <div class="inner">
-        <span classList={{ top: true, fault, avail }}>{topText()}</span>
+        <span classList={topClass()}>{topText()}</span>
         <span class={`bottom ${bottomColor()}`}>{bottomText()}</span>
       </div>
     </button>

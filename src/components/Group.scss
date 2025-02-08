@@ -1,0 +1,17 @@
+.group {
+  width: min-content;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 40px;
+  padding: 40px;
+
+  &.column {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
