@@ -1,0 +1,17 @@
+# Node
+node_modules/
+client-web/dist/
+
+# Editors
+.vscode/
+.zed/
+.obsidian/
+
+# Environment
+.env
+assets/
+recordings/
+config.toml
+
+# From Replit
+.cargo
