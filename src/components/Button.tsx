@@ -1,5 +1,5 @@
 import './Button.scss';
-import { createEffect, createMemo, createSignal } from 'solid-js';
+import { createMemo, createSignal } from 'solid-js';
 
 export type ButtonProps = {
   kind: 'on' | 'off';
@@ -31,7 +31,7 @@ export default function Button({ kind, avail, fault, onClick }: ButtonProps) {
   );
 
   return (
-    <button class="btn" onClick={handleClick}>
+    <button class="btn" onMouseDown={handleClick}>
       <div class="inner">
         <span classList={{ top: true, fault, avail }}>{topText()}</span>
         <span class={`bottom ${bottomColor()}`}>{bottomText()}</span>
