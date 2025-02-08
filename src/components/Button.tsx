@@ -9,14 +9,19 @@ export type ButtonProps = {
 
   onClick?: (on: boolean) => void;
 };
-export default function Button({ kind, avail, fault, onClick }: ButtonProps) {
+export default function Button(props: ButtonProps) {
+  const kind = () => props.kind;
+  const avail = () => props.avail;
+  const fault = () => props.fault;
+  const onClick = () => props.onClick;
+
   const [on, setOn] = createSignal(false);
 
   const handleClick = () => {
     setOn((on) => {
       on = !on;
 
-      if (onClick) onClick(on);
+      if (onClick()) onClick()!(on);
 
       return on;
     });
@@ -24,13 +29,15 @@ export default function Button({ kind, avail, fault, onClick }: ButtonProps) {
 
   const topClass = createMemo(() => ({
     top: true,
-    fault,
-    avail,
+    fault: fault(),
+    avail: avail(),
   }));
-  const topText = createMemo(() => (avail ? 'AVAIL' : fault ? 'FAULT' : ''));
+  const topText = createMemo(() =>
+    avail() ? 'AVAIL' : fault() ? 'FAULT' : ''
+  );
 
   const bottomText = createMemo(() =>
-    kind === 'on' && on() ? 'ON' : kind === 'off' && !on() ? 'OFF' : ''
+    kind() === 'on' && on() ? 'ON' : kind() === 'off' && !on() ? 'OFF' : ''
   );
   const bottomColor = createMemo(() =>
     bottomText() === 'ON' ? 'blue' : bottomText() === 'OFF' ? 'white' : ''
