@@ -9,9 +9,3 @@ client-web/dist/
 
 # Environment
 .env
-assets/
-recordings/
-config.toml
-
-# From Replit
-.cargo

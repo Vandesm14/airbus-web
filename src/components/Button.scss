@@ -1,0 +1,67 @@
+@import 'styles/vars.scss';
+@import 'styles/fonts.scss';
+
+.btn {
+  padding: 5px;
+
+  display: flex;
+
+  background-color: black;
+  border: none;
+
+  font: 'Source Code Pro', monospace;
+
+  .inner {
+    width: 100px;
+    height: 100px;
+    border-radius: 4px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 10px;
+    gap: 6px;
+
+    box-shadow: 0px 0px 0px 4px #676767 inset;
+
+    .top,
+    .bottom {
+      width: 100%;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .top {
+      font-size: 26px;
+      font-weight: bold;
+
+      &.fault {
+        color: $fault;
+      }
+
+      &.avail {
+        color: $green;
+      }
+    }
+
+    .bottom {
+      font-size: 30px;
+      font-weight: bold;
+
+      &.white {
+        color: $white;
+        box-shadow: 0px 0px 0px 4px $white inset;
+      }
+
+      &.blue {
+        color: $blue;
+        box-shadow: 0px 0px 0px 4px $blue inset;
+      }
+    }
+  }
+}
