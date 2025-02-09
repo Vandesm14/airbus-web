@@ -53,14 +53,14 @@ export default function Knob(props: KnobProps) {
   );
 
   const labels = createMemo(() => {
-    let arr: Array<{ text: string; x: number; y: number }> = [];
+    let arr: Array<{ text: string; x: number; y: number; align: number }> = [];
     if (bounds()) {
       for (const detent of detents()) {
         const angle = toRad(detent.angle);
 
         // Calculate the x and y coordinates of the label
         let x = Math.sin(angle) * 75;
-        let y = Math.cos(angle) * 75;
+        let y = Math.cos(angle) * -90;
 
         // Offset based on the center of the knob
         x += bounds()!.left + bounds()!.width / 2;
@@ -69,7 +69,7 @@ export default function Knob(props: KnobProps) {
         // Offset for font size (vertically)
         y -= 20;
 
-        arr.push({ text: detent.label, x, y });
+        arr.push({ text: detent.label, x, y, align: Math.sin(angle) });
       }
     }
 
@@ -89,7 +89,9 @@ export default function Knob(props: KnobProps) {
         {(label) => (
           <Label
             text={label.text}
-            style={`position: absolute; left: ${label.x}px; top: ${label.y}px;`}
+            style={`position: absolute; top: ${label.y}px; left: ${
+              label.x
+            }px; transform: translate(${label.align * 50 - 50}%, 0);`}
           />
         )}
       </For>
