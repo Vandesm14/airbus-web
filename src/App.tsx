@@ -1,5 +1,6 @@
 import Button from './components/Button';
 import Group from './components/Group';
+import Knob from './components/Knob';
 import WithLabel from './components/WithLabel';
 
 import { createEffect, createMemo, createSignal, onMount } from 'solid-js';
@@ -44,6 +45,14 @@ export default function App() {
             avail={apuAvail()}
           />
         </WithLabel>
+        <Knob
+          detents={[
+            { label: 'ISOLATE', angle: 45 },
+            { label: 'STARTUP', angle: 90 },
+            { label: 'SUPPLY', angle: 135 },
+          ]}
+          default={apuSpeed()}
+        />
       </Group>
     </>
   );
