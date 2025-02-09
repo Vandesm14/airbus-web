@@ -17,6 +17,9 @@ importers:
       jotai:
         specifier: ^2.9.3
         version: 2.9.3
+      solid-boundaries:
+        specifier: ^2.1.0
+        version: 2.1.0(solid-js@1.8.21)
       solid-jotai:
         specifier: ^0.2.2
         version: 0.2.2(jotai@2.9.3)(solid-js@1.8.21)
@@ -758,6 +761,11 @@ packages:
     resolution: {integrity: sha512-rqEO6FZk8mv7Hyv4UCj3FD3b6Waqft605TLfsCe/BiaylRpyyMC0b+uA5TJKawX3KzMrdi3wsLbCaLplrQmBvQ==}
     engines: {node: '>=10'}
 
+  solid-boundaries@2.1.0:
+    resolution: {integrity: sha512-YprGpiX3DjRzL28wo//2nxPW2yPVTJ6p9SZTQNqqruVUyCogRbMoiJkr/ZdNXGdlvoIgOTRKpL9X44KxNy9LjA==}
+    peerDependencies:
+      solid-js: '>=1.0.0'
+
   solid-devtools@0.30.1:
     resolution: {integrity: sha512-axpXL4JV1dnGhuei+nSGS8ewGeNkmIgFDsAlO90YyYY5t8wU1R0aYAQtL+I+5KICLKPBvfkzdcFa2br7AV4lAw==}
     peerDependencies:
@@ -1496,6 +1504,10 @@ snapshots:
       seroval: 1.1.1
 
   seroval@1.1.1: {}
+
+  solid-boundaries@2.1.0(solid-js@1.8.21):
+    dependencies:
+      solid-js: 1.8.21
 
   solid-devtools@0.30.1(solid-js@1.8.21)(vite@5.4.2(sass@1.77.8)):
     dependencies:
