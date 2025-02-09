@@ -66,6 +66,10 @@ export default function Knob(props: KnobProps) {
         x += bounds()!.left + bounds()!.width / 2;
         y += bounds()!.top + bounds()!.height / 2;
 
+        // Offset based on the window (scroll position)
+        x += window.scrollX;
+        y += window.scrollY;
+
         // Offset for font size (vertically)
         y -= 20;
 
