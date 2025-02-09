@@ -1,7 +1,7 @@
 import './Knob.scss';
 import svg from './Knob.svg';
 
-import { createMemo, createSignal, For } from 'solid-js';
+import { createEffect, createMemo, createSignal, For } from 'solid-js';
 
 import Label from './Label';
 import { toRad } from '../lib/ang';
@@ -13,7 +13,9 @@ export type Detent = {
 };
 export type KnobProps = {
   detents: Detent[];
-  default: number;
+  default?: number;
+
+  onChange?: (value: number) => void;
 };
 export default function Knob(props: KnobProps) {
   const { ref, bounds } = trackBounds();
@@ -21,7 +23,7 @@ export default function Knob(props: KnobProps) {
   const detents = () => props.detents;
   const defaultValue = () => props.default;
 
-  const [value, setValue] = createSignal(defaultValue());
+  const [value, setValue] = createSignal(defaultValue() ?? 0);
 
   const detent = createMemo(() => {
     return detents().at(value());
@@ -41,6 +43,10 @@ export default function Knob(props: KnobProps) {
       }
     }
   }
+
+  createEffect(() => {
+    props.onChange?.(value());
+  });
 
   const transform = createMemo(
     () => `transform: rotate(${detent()?.angle ?? 0}deg)`
