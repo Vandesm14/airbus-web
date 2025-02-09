@@ -60,7 +60,7 @@ export default function Knob(props: KnobProps) {
 
         // Calculate the x and y coordinates of the label
         let x = Math.sin(angle) * 75;
-        let y = Math.cos(angle) * -90;
+        let y = Math.cos(angle) * -80;
 
         // Offset based on the center of the knob
         x += bounds()!.left + bounds()!.width / 2;
