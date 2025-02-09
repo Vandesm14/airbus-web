@@ -7,11 +7,10 @@
   display: flex;
 
   background-color: black;
-  border: none;
 
   .inner {
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     border-radius: 4px;
 
     display: flex;
@@ -23,6 +22,7 @@
     gap: 6px;
 
     background-color: #1b1b1b;
+    border: none;
     box-shadow: 0px 0px 0px 4px #676767 inset;
 
     .top,

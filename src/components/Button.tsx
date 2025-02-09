@@ -41,11 +41,11 @@ export default function Button(props: ButtonProps) {
   );
 
   return (
-    <button class="btn" onMouseDown={handleClick}>
-      <div class="inner">
+    <div class="btn">
+      <button class="inner" onMouseDown={handleClick}>
         <span classList={topClass()}>{topText()}</span>
         <span class={`bottom ${bottomColor()}`}>{bottomText()}</span>
-      </div>
-    </button>
+      </button>
+    </div>
   );
 }
