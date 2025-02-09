@@ -2,6 +2,8 @@
 @import 'styles/fonts.scss';
 
 .btn {
+  border-radius: 4px;
+
   padding: 5px;
 
   display: flex;
@@ -9,8 +11,8 @@
   background-color: black;
 
   .inner {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     border-radius: 4px;
 
     display: flex;
@@ -18,8 +20,7 @@
     justify-content: space-between;
     align-items: center;
 
-    padding: 10px;
-    gap: 6px;
+    padding: 8px;
 
     background-color: #1b1b1b;
     border: none;
@@ -36,7 +37,7 @@
     }
 
     .top {
-      font-size: 24px;
+      font-size: 18px;
       font-weight: bold;
 
       &.fault {
@@ -49,7 +50,9 @@
     }
 
     .bottom {
-      font-size: 28px;
+      border-radius: 3px;
+
+      font-size: 20px;
       font-weight: bold;
 
       &.white {
