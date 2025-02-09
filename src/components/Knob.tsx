@@ -1,8 +1,7 @@
 import './Knob.scss';
 import svg from './Knob.svg';
 
-import { createEffect, createMemo, createSignal, For, Show } from 'solid-js';
-import { Vec2 } from '../lib/vec2/Vec2';
+import { createEffect, createMemo, createSignal, For } from 'solid-js';
 
 import Label from './Label';
 import { toRad } from '../lib/ang';

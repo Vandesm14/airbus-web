@@ -1,5 +1,5 @@
 import './Button.scss';
-import { createEffect, createMemo, createSignal, Setter } from 'solid-js';
+import { createMemo, Setter } from 'solid-js';
 
 export type ButtonProps = {
   kind: 'on' | 'off';
