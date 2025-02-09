@@ -1,5 +1,6 @@
 .group {
-  width: min-content;
+  // This might be fine as auto, so I'll leave this commented out.
+  // width: min-content;
 
   display: flex;
   flex-direction: row;
