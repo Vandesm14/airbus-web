@@ -40,7 +40,7 @@ export default function App() {
         <WithLabel label="START">
           <Button
             kind="on"
-            on={start() && !apuAvail()}
+            on={start()}
             setOn={(x) => master() && setStart(x)}
             avail={apuAvail()}
           />
