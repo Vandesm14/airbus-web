@@ -1,4 +1,4 @@
-import { createEffect, createMemo, createSignal, onMount } from 'solid-js';
+import { createSignal, onMount } from 'solid-js';
 import Group from '~/components/Group';
 import Knob, { Detent } from '~/components/Knob';
 import SevenSegment from '~/components/SevenSegment';
