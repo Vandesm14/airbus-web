@@ -1,4 +1,4 @@
-import { createSignal } from 'solid-js';
+import { createMemo, createSignal } from 'solid-js';
 import Group from '~/components/Group';
 import Knob, { Detent } from '~/components/Knob';
 
@@ -11,12 +11,16 @@ export default function Test() {
     { angle: 90, label: 'INCR' },
   ];
 
-  let [value, setValue] = createSignal(0);
+  const [value, setValue] = createSignal(0);
+
+  const label = createMemo(() =>
+    ['DECR+', 'DECR', 'NEUTR', 'INCR', 'INCR+'].at(value())
+  );
 
   return (
     <Group direction="column">
       <Knob detents={detents} defaultIndex={2} onChange={setValue} />
-      <span>{detents.at(value())?.label ?? ''}</span>
+      <span>{label()}</span>
     </Group>
   );
 }
