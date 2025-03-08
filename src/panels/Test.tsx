@@ -1,6 +1,7 @@
 import { createSignal, onMount } from 'solid-js';
 import Group from '~/components/Group';
 import Knob, { Detent } from '~/components/Knob';
+import MomentButton from '~/components/MomentButton';
 import SevenSegment from '~/components/SevenSegment';
 import WithLabel from '~/components/WithLabel';
 
@@ -49,9 +50,14 @@ export default function Test() {
 
   return (
     <Group direction="column">
-      <WithLabel label="SET POINT">
-        <SevenSegment value={point().toFixed(1)} digits={4} />
-      </WithLabel>
+      <Group direction="row" padless>
+        <WithLabel label="SET POINT">
+          <SevenSegment value={point().toFixed(1)} digits={4} />
+        </WithLabel>
+        <WithLabel label="RST">
+          <MomentButton onClick={() => setPoint(0)} />
+        </WithLabel>
+      </Group>
       <Knob detents={detents} defaultAngle={0} onChange={setValue} />
     </Group>
   );

@@ -1,0 +1,18 @@
+@import 'styles/vars.scss';
+@import 'styles/fonts.scss';
+
+.moment-btn {
+  border-radius: 100%;
+
+  width: 40px;
+  height: 40px;
+
+  background-color: #464646;
+  border: 5px solid black;
+
+  cursor: pointer;
+
+  &:active {
+    background-color: #2b2b2b;
+  }
+}
