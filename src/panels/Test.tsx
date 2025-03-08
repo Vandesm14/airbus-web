@@ -2,6 +2,28 @@ import { createSignal, onMount } from 'solid-js';
 import Group from '~/components/Group';
 import Knob, { Detent } from '~/components/Knob';
 import SevenSegment from '~/components/SevenSegment';
+import WithLabel from '~/components/WithLabel';
+
+function generateDetents(min: number, max: number, stepDetents: number) {
+  const detents: Detent[] = [];
+  const totalSteps = stepDetents * 2 + 3;
+  const angleStep = 180 / (totalSteps - 1);
+
+  for (let i = 0; i < totalSteps; i++) {
+    const fraction = i / (totalSteps - 1);
+    const value = min + fraction * (max - min);
+    const angle = -90 + i * angleStep;
+    let label = undefined;
+
+    if (i === 0) label = 'DECR';
+    else if (i === Math.floor(totalSteps / 2)) label = 'NEUTR';
+    else if (i === totalSteps - 1) label = 'INCR';
+
+    detents.push({ angle, value, ...(label && { label }) });
+  }
+
+  return detents;
+}
 
 export default function Test() {
   const detents: Array<Detent> = [
@@ -27,8 +49,10 @@ export default function Test() {
 
   return (
     <Group direction="column">
+      <WithLabel label="SET POINT">
+        <SevenSegment value={point().toFixed(1)} digits={4} />
+      </WithLabel>
       <Knob detents={detents} defaultAngle={0} onChange={setValue} />
-      <SevenSegment value={point().toFixed(1)} digits={4} />
     </Group>
   );
 }
