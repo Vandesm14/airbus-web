@@ -22,7 +22,7 @@ export function digitToSegment(digit: number): Segments {
 }
 
 export default function SevenSegment(props: {
-  value: number;
+  value: number | string;
   digits?: number;
   padWithZeros?: boolean;
 }) {
@@ -52,10 +52,7 @@ export default function SevenSegment(props: {
     ctx.strokeStyle = 'red';
 
     let string = value().toString();
-    let decimalIndex = string.indexOf('.');
-    if (value() < 0) {
-      decimalIndex -= 1;
-    }
+    let decimalIndex = string.indexOf('.') - 1;
 
     string = string.replace('.', '');
     const length = string.length;
@@ -130,7 +127,7 @@ export default function SevenSegment(props: {
     }
 
     if (decimalIndex >= 0) {
-      const offset = calcOffset(decimalIndex);
+      const offset = calcOffset(digits() - length + decimalIndex);
       ctx.fillRect(
         offset + padding + size * ratio + size + padding,
         padding + size * 2 + size * ratio * 2,
