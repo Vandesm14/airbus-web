@@ -3,6 +3,7 @@ import Group from '~/components/Group';
 import WithLabel from '~/components/WithLabel';
 
 import { createEffect, createMemo, createSignal, onMount } from 'solid-js';
+import SevenSegment from '~/components/SevenSegment';
 
 export default function APU() {
   const [master, setMaster] = createSignal(false);
@@ -31,7 +32,7 @@ export default function APU() {
 
   return (
     <Group direction="column">
-      <span>APU Speed: {apuSpeed()}</span>
+      <SevenSegment value={apuSpeed()} digits={3} />
       <WithLabel label="MASTER">
         <Button kind="on" on={master()} setOn={setMaster} />
       </WithLabel>

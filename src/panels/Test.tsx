@@ -21,7 +21,7 @@ export default function Test() {
   return (
     <Group direction="column">
       <Knob detents={detents} defaultIndex={2} onChange={setValue} />
-      <SevenSegment value={value()} />
+      <SevenSegment value={(value() - 2) * 0.5} digits={3} />
     </Group>
   );
 }

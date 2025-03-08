@@ -33,8 +33,8 @@ export default function SevenSegment(props: {
   const padWithZeros = () => props.padWithZeros ?? false;
 
   const size = 10;
-  const ratio = 3;
-  const padding = 6;
+  const ratio = 2.5;
+  const padding = size * 1.5;
 
   createEffect(() => {
     if (!canvas) return;
@@ -51,8 +51,16 @@ export default function SevenSegment(props: {
     ctx.fillStyle = 'orange';
     ctx.strokeStyle = 'orange';
 
-    const string = value().toString();
+    let string = value().toString();
+    let dotIndex = string.indexOf('.');
+    if (value() < 0) {
+      dotIndex -= 1;
+    }
+
+    string = string.replace('.', '');
     const length = string.length;
+
+    const calcOffset = (i: number) => (size * 2 + size * ratio + padding) * i;
 
     for (let i = 0; i < digits(); i++) {
       const index = length - digits() + i;
@@ -71,7 +79,7 @@ export default function SevenSegment(props: {
 
       let segments = digitToSegment(digit);
 
-      const offset = (size * 2 + size * ratio + padding * 2) * i;
+      const offset = calcOffset(i);
 
       if (segments.a) {
         ctx.fillRect(offset + padding + size, padding, size * ratio, size);
@@ -120,12 +128,22 @@ export default function SevenSegment(props: {
         );
       }
     }
+
+    if (dotIndex >= 0) {
+      const offset = calcOffset(dotIndex);
+      ctx.fillRect(
+        offset + padding + size * ratio + size + padding,
+        padding + size * 2 + size * ratio * 2,
+        size,
+        size
+      );
+    }
   });
 
   return (
     <canvas
       ref={canvas}
-      width={(size * 2 + size * ratio + padding * 2) * digits()}
+      width={(size * 2 + size * ratio + padding) * digits() + padding}
       height={size * 3 + size * ratio * 2 + padding * 2}
     ></canvas>
   );
