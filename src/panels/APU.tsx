@@ -32,7 +32,9 @@ export default function APU() {
 
   return (
     <Group direction="column">
-      <SevenSegment value={apuSpeed()} digits={3} />
+      <WithLabel label="APU SPEED">
+        <SevenSegment value={apuSpeed()} digits={3} />
+      </WithLabel>
       <WithLabel label="MASTER">
         <Button kind="on" on={master()} setOn={setMaster} />
       </WithLabel>
