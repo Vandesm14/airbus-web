@@ -1,6 +1,7 @@
 import { createMemo, createSignal } from 'solid-js';
 import Group from '~/components/Group';
 import Knob, { Detent } from '~/components/Knob';
+import SevenSegment from '~/components/SevenSegment';
 
 export default function Test() {
   const detents: Array<Detent> = [
@@ -20,7 +21,7 @@ export default function Test() {
   return (
     <Group direction="column">
       <Knob detents={detents} defaultIndex={2} onChange={setValue} />
-      <span>{label()}</span>
+      <SevenSegment value={value()} />
     </Group>
   );
 }
