@@ -45,6 +45,7 @@ export default function Knob(props: KnobProps) {
   }
 
   createEffect(() => {
+    console.log(value());
     props.onChange?.(value());
   });
 
@@ -90,12 +91,13 @@ export default function Knob(props: KnobProps) {
         ref={ref}
       />
       <For each={labels()}>
-        {(label) => (
+        {(label, index) => (
           <Label
             text={label.text}
             style={`position: absolute; top: ${label.y}px; left: ${
               label.x
             }px; transform: translate(${label.align * 50 - 50}%, 0);`}
+            onClick={() => setValue(index())}
           />
         )}
       </For>

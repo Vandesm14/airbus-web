@@ -8,4 +8,9 @@
 
   font-size: 26px;
   color: $white;
+
+  &.clickable {
+    cursor: pointer;
+    user-select: none;
+  }
 }
