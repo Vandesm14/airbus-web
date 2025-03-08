@@ -1,27 +1,32 @@
-import { createMemo, createSignal } from 'solid-js';
+import { createEffect, createMemo, createSignal, onMount } from 'solid-js';
 import Group from '~/components/Group';
 import Knob, { Detent } from '~/components/Knob';
 import SevenSegment from '~/components/SevenSegment';
 
 export default function Test() {
   const detents: Array<Detent> = [
-    { angle: -90, label: 'DECR' },
-    { angle: -45 },
-    { angle: 0, label: 'NEUTR' },
-    { angle: 45 },
-    { angle: 90, label: 'INCR' },
+    { angle: -90, value: -5.0, label: 'DECR' },
+    { angle: -60, value: -0.5 },
+    { angle: -30, value: -0.1 },
+    { angle: 0, value: 0, label: 'NEUTR' },
+    { angle: 30, value: 0.1 },
+    { angle: 60, value: 0.5 },
+    { angle: 90, value: 5.0, label: 'INCR' },
   ];
 
   const [value, setValue] = createSignal(0);
+  const [point, setPoint] = createSignal(0);
 
-  const label = createMemo(() =>
-    ['DECR+', 'DECR', 'NEUTR', 'INCR', 'INCR+'].at(value())
-  );
+  onMount(() => {
+    setInterval(() => {
+      setPoint((point) => (point += value()));
+    }, 1000 / 5);
+  });
 
   return (
     <Group direction="column">
-      <Knob detents={detents} defaultIndex={2} onChange={setValue} />
-      <SevenSegment value={(value() - 2) * 0.5} digits={3} />
+      <Knob detents={detents} defaultIndex={3} onChange={setValue} />
+      <SevenSegment value={point().toFixed(1)} digits={4} />
     </Group>
   );
 }

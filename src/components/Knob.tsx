@@ -10,12 +10,13 @@ import { trackBounds } from 'solid-boundaries';
 export type Detent = {
   label?: string;
   angle: number;
+  value: unknown;
 };
 export type KnobProps = {
   detents: Detent[];
   defaultIndex?: number;
 
-  onChange?: (index: number) => void;
+  onChange?: (index: unknown) => void;
 };
 export default function Knob(props: KnobProps) {
   const { ref, bounds } = trackBounds();
@@ -45,7 +46,7 @@ export default function Knob(props: KnobProps) {
   }
 
   createEffect(() => {
-    props.onChange?.(value());
+    props.onChange?.(detent()?.value);
   });
 
   const transform = createMemo(
