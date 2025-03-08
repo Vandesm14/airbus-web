@@ -5,6 +5,7 @@ import SevenSegment from '~/components/SevenSegment';
 
 export default function Test() {
   const detents: Array<Detent> = [
+    { angle: -120, value: -20.0 },
     { angle: -90, value: -5.0, label: 'DECR' },
     { angle: -60, value: -0.5 },
     { angle: -30, value: -0.1 },
@@ -12,6 +13,7 @@ export default function Test() {
     { angle: 30, value: 0.1 },
     { angle: 60, value: 0.5 },
     { angle: 90, value: 5.0, label: 'INCR' },
+    { angle: 120, value: 20.0 },
   ];
 
   const [value, setValue] = createSignal(0);
@@ -25,7 +27,7 @@ export default function Test() {
 
   return (
     <Group direction="column">
-      <Knob detents={detents} defaultIndex={3} onChange={setValue} />
+      <Knob detents={detents} defaultAngle={0} onChange={setValue} />
       <SevenSegment value={point().toFixed(1)} digits={4} />
     </Group>
   );

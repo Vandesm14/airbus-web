@@ -14,7 +14,7 @@ export type Detent = {
 };
 export type KnobProps = {
   detents: Detent[];
-  defaultIndex?: number;
+  defaultAngle?: number;
 
   onChange?: (index: unknown) => void;
 };
@@ -22,12 +22,14 @@ export default function Knob(props: KnobProps) {
   const { ref, bounds } = trackBounds();
 
   const detents = () => props.detents;
-  const defaultValue = () => props.defaultIndex;
+  const defaultAngle = () => props.defaultAngle;
 
-  const [value, setValue] = createSignal(defaultValue() ?? 0);
+  const [index, setIndex] = createSignal(
+    detents().findIndex((d) => d.angle === defaultAngle()) ?? 0
+  );
 
   const detent = createMemo(() => {
-    return detents().at(value());
+    return detents().at(index());
   });
 
   function onScroll(
@@ -38,9 +40,9 @@ export default function Knob(props: KnobProps) {
 
       const delta = e.deltaY;
       if (delta > 0) {
-        setValue((x) => Math.max(x - 1, 0));
+        setIndex((x) => Math.max(x - 1, 0));
       } else if (delta < 0) {
-        setValue((x) => Math.min(x + 1, detents().length - 1));
+        setIndex((x) => Math.min(x + 1, detents().length - 1));
       }
     }
   }
@@ -99,7 +101,7 @@ export default function Knob(props: KnobProps) {
             style={`position: absolute; top: ${label.y}px; left: ${
               label.x
             }px; transform: translate(${label.align * 50 - 50}%, 0);`}
-            onClick={() => setValue(index())}
+            onClick={() => setIndex(index())}
           />
         )}
       </For>
