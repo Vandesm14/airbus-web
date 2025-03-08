@@ -56,9 +56,16 @@ export default function Knob(props: KnobProps) {
   );
 
   const labels = createMemo(() => {
-    let arr: Array<{ text: string; x: number; y: number; align: number }> = [];
+    let arr: Array<{
+      text: string;
+      x: number;
+      y: number;
+      align: number;
+      index: number;
+    }> = [];
     if (bounds()) {
-      for (const detent of detents()) {
+      for (let i = 0; i < detents().length; i++) {
+        const detent = detents()[i]!;
         if (!detent.label) continue;
 
         const angle = toRad(detent.angle);
@@ -78,7 +85,13 @@ export default function Knob(props: KnobProps) {
         // Offset for font size (vertically)
         y -= 20;
 
-        arr.push({ text: detent.label, x, y, align: Math.sin(angle) });
+        arr.push({
+          text: detent.label,
+          x,
+          y,
+          align: Math.sin(angle),
+          index: i,
+        });
       }
     }
 
@@ -95,13 +108,13 @@ export default function Knob(props: KnobProps) {
         ref={ref}
       />
       <For each={labels()}>
-        {(label, index) => (
+        {(label) => (
           <Label
             text={label.text}
             style={`position: absolute; top: ${label.y}px; left: ${
               label.x
             }px; transform: translate(${label.align * 50 - 50}%, 0);`}
-            onClick={() => setIndex(index())}
+            onClick={() => setIndex(label.index)}
           />
         )}
       </For>
