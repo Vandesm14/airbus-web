@@ -32,8 +32,8 @@ export default function SevenSegment(props: {
   const digits = () => props.digits ?? 1;
   const padWithZeros = () => props.padWithZeros ?? false;
 
-  const size = 10;
-  const ratio = 2.5;
+  const size = 6;
+  const ratio = 4;
   const padding = size * 1.5;
 
   createEffect(() => {
@@ -48,8 +48,8 @@ export default function SevenSegment(props: {
     ctx.strokeStyle = 'black';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = 'orange';
-    ctx.strokeStyle = 'orange';
+    ctx.fillStyle = 'red';
+    ctx.strokeStyle = 'red';
 
     let string = value().toString();
     let decimalIndex = string.indexOf('.');
