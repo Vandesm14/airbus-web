@@ -13,15 +13,15 @@ export type Detent = {
 };
 export type KnobProps = {
   detents: Detent[];
-  default?: number;
+  defaultIndex?: number;
 
-  onChange?: (value: number) => void;
+  onChange?: (index: number) => void;
 };
 export default function Knob(props: KnobProps) {
   const { ref, bounds } = trackBounds();
 
   const detents = () => props.detents;
-  const defaultValue = () => props.default;
+  const defaultValue = () => props.defaultIndex;
 
   const [value, setValue] = createSignal(defaultValue() ?? 0);
 
@@ -59,8 +59,8 @@ export default function Knob(props: KnobProps) {
         const angle = toRad(detent.angle);
 
         // Calculate the x and y coordinates of the label
-        let x = Math.sin(angle) * 75;
-        let y = Math.cos(angle) * -80;
+        let x = Math.sin(angle) * 60;
+        let y = Math.cos(angle) * -70;
 
         // Offset based on the center of the knob
         x += bounds()!.left + bounds()!.width / 2;
