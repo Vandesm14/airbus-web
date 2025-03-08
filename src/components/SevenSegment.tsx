@@ -9,7 +9,20 @@ export type Segments = {
   f: boolean;
   g: boolean;
 };
-export function digitToSegment(digit: number): Segments {
+
+function nullSegments(): Segments {
+  return {
+    a: false,
+    b: false,
+    c: false,
+    d: false,
+    e: false,
+    f: false,
+    g: false,
+  };
+}
+
+function digitToSegment(digit: number): Segments {
   return {
     a: [0, 2, 3, 5, 6, 7, 8, 9].includes(digit),
     b: [0, 1, 2, 3, 4, 7, 8, 9].includes(digit),
@@ -20,6 +33,9 @@ export function digitToSegment(digit: number): Segments {
     g: [-1, 2, 3, 4, 5, 6, 8, 9].includes(digit),
   };
 }
+
+const OnColor = '#f00';
+const OffColor = '#300';
 
 export default function SevenSegment(props: {
   value: number | string;
@@ -45,11 +61,7 @@ export default function SevenSegment(props: {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.fillStyle = 'black';
-    ctx.strokeStyle = 'black';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.fillStyle = 'red';
-    ctx.strokeStyle = 'red';
 
     let string = value().toString();
     let decimalIndex = string.indexOf('.') - 1;
@@ -70,66 +82,67 @@ export default function SevenSegment(props: {
         } else {
           digit = Number(char);
         }
-      } else if (!padWithZeros()) {
-        continue;
       }
-
-      let segments = digitToSegment(digit);
 
       const offset = calcOffset(i);
+      let segments = digitToSegment(digit);
 
-      if (segments.a) {
-        ctx.fillRect(offset + padding + size, padding, size * ratio, size);
+      if (!padWithZeros() && !char) {
+        segments = nullSegments();
       }
-      if (segments.b) {
-        ctx.fillRect(
-          offset + padding + size + size * ratio,
-          padding + size,
-          size,
-          size * ratio
-        );
-      }
-      if (segments.c) {
-        ctx.fillRect(
-          offset + padding + size + size * ratio,
-          padding + size * 2 + size * ratio,
-          size,
-          size * ratio
-        );
-      }
-      if (segments.d) {
-        ctx.fillRect(
-          offset + padding + size,
-          padding + size * 2 + size * ratio * 2,
-          size * ratio,
-          size
-        );
-      }
-      if (segments.e) {
-        ctx.fillRect(
-          offset + padding,
-          padding + size * 2 + size * ratio,
-          size,
-          size * ratio
-        );
-      }
-      if (segments.f) {
-        ctx.fillRect(offset + padding, padding + size, size, size * ratio);
-      }
-      if (segments.g) {
-        ctx.fillRect(
-          offset + padding + size,
-          padding + size + size * ratio,
-          size * ratio,
-          size
-        );
-      }
+
+      ctx.fillStyle = segments.a ? OnColor : OffColor;
+      ctx.fillRect(offset + padding + size, padding, size * ratio, size);
+
+      ctx.fillStyle = segments.b ? OnColor : OffColor;
+      ctx.fillRect(
+        offset + padding + size + size * ratio,
+        padding + size,
+        size,
+        size * ratio
+      );
+
+      ctx.fillStyle = segments.c ? OnColor : OffColor;
+      ctx.fillRect(
+        offset + padding + size + size * ratio,
+        padding + size * 2 + size * ratio,
+        size,
+        size * ratio
+      );
+
+      ctx.fillStyle = segments.d ? OnColor : OffColor;
+      ctx.fillRect(
+        offset + padding + size,
+        padding + size * 2 + size * ratio * 2,
+        size * ratio,
+        size
+      );
+
+      ctx.fillStyle = segments.e ? OnColor : OffColor;
+      ctx.fillRect(
+        offset + padding,
+        padding + size * 2 + size * ratio,
+        size,
+        size * ratio
+      );
+
+      ctx.fillStyle = segments.f ? OnColor : OffColor;
+      ctx.fillRect(offset + padding, padding + size, size, size * ratio);
+
+      ctx.fillStyle = segments.g ? OnColor : OffColor;
+      ctx.fillRect(
+        offset + padding + size,
+        padding + size + size * ratio,
+        size * ratio,
+        size
+      );
     }
 
     if (decimalIndex >= 0) {
       const offset = calcOffset(digits() - length + decimalIndex);
+      ctx.fillStyle = OnColor;
       ctx.fillRect(
-        offset + padding + size * ratio + size + padding,
+        padding + offset + size * ratio + size * 2.25,
         padding + size * 2 + size * ratio * 2,
         size,
         size
