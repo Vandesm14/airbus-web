@@ -52,9 +52,9 @@ export default function SevenSegment(props: {
     ctx.strokeStyle = 'orange';
 
     let string = value().toString();
-    let dotIndex = string.indexOf('.');
+    let decimalIndex = string.indexOf('.');
     if (value() < 0) {
-      dotIndex -= 1;
+      decimalIndex -= 1;
     }
 
     string = string.replace('.', '');
@@ -129,8 +129,8 @@ export default function SevenSegment(props: {
       }
     }
 
-    if (dotIndex >= 0) {
-      const offset = calcOffset(dotIndex);
+    if (decimalIndex >= 0) {
+      const offset = calcOffset(decimalIndex);
       ctx.fillRect(
         offset + padding + size * ratio + size + padding,
         padding + size * 2 + size * ratio * 2,
