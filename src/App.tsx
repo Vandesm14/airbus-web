@@ -8,8 +8,6 @@ export default function App() {
     <>
       <Group direction="row">
         <APU />
-      </Group>
-      <Group direction="row">
         <Test />
       </Group>
     </>
