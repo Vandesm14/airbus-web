@@ -5,7 +5,9 @@ import Knob, { Detent } from '~/components/Knob';
 export default function Test() {
   const detents: Array<Detent> = [
     { angle: -90, label: 'DECR' },
+    { angle: -45 },
     { angle: 0, label: 'NEUTR' },
+    { angle: 45 },
     { angle: 90, label: 'INCR' },
   ];
 
@@ -13,8 +15,8 @@ export default function Test() {
 
   return (
     <Group direction="column">
+      <Knob detents={detents} defaultIndex={2} onChange={setValue} />
       <span>{detents.at(value())?.label ?? ''}</span>
-      <Knob detents={detents} defaultIndex={1} onChange={setValue} />
     </Group>
   );
 }

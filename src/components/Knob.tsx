@@ -8,7 +8,7 @@ import { toRad } from '../lib/ang';
 import { trackBounds } from 'solid-boundaries';
 
 export type Detent = {
-  label: string;
+  label?: string;
   angle: number;
 };
 export type KnobProps = {
@@ -45,7 +45,6 @@ export default function Knob(props: KnobProps) {
   }
 
   createEffect(() => {
-    console.log(value());
     props.onChange?.(value());
   });
 
@@ -57,6 +56,8 @@ export default function Knob(props: KnobProps) {
     let arr: Array<{ text: string; x: number; y: number; align: number }> = [];
     if (bounds()) {
       for (const detent of detents()) {
+        if (!detent.label) continue;
+
         const angle = toRad(detent.angle);
 
         // Calculate the x and y coordinates of the label
