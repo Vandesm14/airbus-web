@@ -1,5 +1,5 @@
 import './Button.scss';
-import { createMemo, Setter } from 'solid-js';
+import { Accessor, createMemo, Setter } from 'solid-js';
 
 export type ButtonProps = {
   kind: 'on' | 'off';
@@ -7,21 +7,19 @@ export type ButtonProps = {
   avail?: boolean;
   fault?: boolean;
 
-  on: boolean;
-  setOn: Setter<boolean>;
+  on: Accessor<boolean>;
+  onClick: () => void;
 };
 export default function Button(props: ButtonProps) {
   const kind = () => props.kind;
   const avail = () => props.avail;
   const fault = () => props.fault;
-  const on = () => props.on;
-  const setOn = () => props.setOn;
+
+  const on = props.on;
+  const onClick = props.onClick;
 
   const handleClick = () => {
-    setOn()((on) => {
-      on = !on;
-      return on;
-    });
+    onClick();
   };
 
   const topClass = createMemo(() => ({
