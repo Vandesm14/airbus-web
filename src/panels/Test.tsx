@@ -1,9 +1,11 @@
 import { createSignal, onMount } from 'solid-js';
+import Encoder from '~/components/Encoder';
 import Group from '~/components/Group';
 import Knob, { Detent } from '~/components/Knob';
 import MomentButton from '~/components/MomentButton';
 import SevenSegment from '~/components/SevenSegment';
 import WithLabel from '~/components/WithLabel';
+import { createSpeeder } from '~/hooks/speeder';
 
 function generateDetents(min: number, max: number, stepDetents: number) {
   const detents: Detent[] = [];
@@ -40,7 +42,12 @@ export default function Test() {
   ];
 
   const [value, setValue] = createSignal(0);
-  const [point, setPoint] = createSignal(0);
+  const {
+    value: point,
+    setValue: setPoint,
+    increment,
+    decrement,
+  } = createSpeeder();
 
   onMount(() => {
     setInterval(() => {
@@ -52,13 +59,14 @@ export default function Test() {
     <Group direction="column">
       <Group direction="row" padless>
         <WithLabel label="SET POINT">
-          <SevenSegment value={point().toFixed(1)} digits={4} />
+          <SevenSegment value={point().toFixed(1)} digits={8} />
         </WithLabel>
         <WithLabel label="RST">
           <MomentButton onClick={() => setPoint(0)} />
         </WithLabel>
       </Group>
       <Knob detents={detents} defaultAngle={0} onChange={setValue} />
+      <Encoder onIncrement={increment} onDecrement={decrement} />
     </Group>
   );
 }
