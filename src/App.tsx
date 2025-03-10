@@ -25,7 +25,7 @@ export default function App() {
   return (
     <>
       <Group direction="column">
-        <Group direction="row">
+        <Group direction="row" no_pad>
           <WithLabel label="MASTER">
             <Button
               kind="off"
