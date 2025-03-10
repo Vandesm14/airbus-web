@@ -1,6 +1,12 @@
-import { Accessor, createEffect, createSignal, Setter } from 'solid-js';
+import {
+  Accessor,
+  createEffect,
+  createMemo,
+  createSignal,
+  Setter,
+} from 'solid-js';
 
-const timeout = 200;
+const timeout = 1000;
 
 /** The longer a value is changed, the faster it will change. */
 export function createSpeeder(): {
@@ -11,24 +17,39 @@ export function createSpeeder(): {
 } {
   const [value, setValue] = createSignal(0);
 
-  const [changes, setChanges] = createSignal(0);
-  const [speed, setSpeed] = createSignal(1);
-  const [time, setTime] = createSignal(0);
+  const [lastTime, setLastTime] = createSignal(0);
+  const [sprintTime, setSprintTime] = createSignal(1);
+
+  const speed = createMemo(() => {
+    const diff = lastTime() - sprintTime();
+
+    if (diff < 1000) {
+      return 1;
+    } else if (diff < 2000) {
+      return 2;
+    } else if (diff < 3000) {
+      return 5;
+    } else if (diff < 4000) {
+      return 10;
+    } else {
+      return 50;
+    }
+  });
 
   createEffect(() => {
     // Trigger on value changes
     value();
 
-    if (Date.now() - time() > timeout) {
-      setChanges(0);
-      setSpeed(1);
-    } else {
-      setChanges((c) => (c += 1));
-      setSpeed(1 + Math.pow(10, changes() * 0.01));
+    const sinceLastChange = Date.now() - lastTime();
+    if (sinceLastChange > timeout) {
+      console.log('reset');
+      setSprintTime(Date.now());
     }
 
-    setTime(Date.now());
+    setLastTime(Date.now());
   });
+
+  createEffect(() => {});
 
   return {
     value,
