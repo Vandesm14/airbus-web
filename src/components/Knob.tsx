@@ -71,8 +71,8 @@ export default function Knob(props: KnobProps) {
         const angle = toRad(detent.angle);
 
         // Calculate the x and y coordinates of the label
-        let x = Math.sin(angle) * 60;
-        let y = Math.cos(angle) * -70;
+        let x = Math.sin(angle) * 50;
+        let y = Math.cos(angle) * -60;
 
         // Offset based on the center of the knob
         x += bounds()!.left + bounds()!.width / 2;
