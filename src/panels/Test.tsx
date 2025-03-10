@@ -7,26 +7,26 @@ import SevenSegment from '~/components/SevenSegment';
 import WithLabel from '~/components/WithLabel';
 import { createSpeeder } from '~/hooks/speeder';
 
-function generateDetents(min: number, max: number, stepDetents: number) {
-  const detents: Detent[] = [];
-  const totalSteps = stepDetents * 2 + 3;
-  const angleStep = 180 / (totalSteps - 1);
+// function generateDetents(min: number, max: number, stepDetents: number) {
+//   const detents: Detent[] = [];
+//   const totalSteps = stepDetents * 2 + 3;
+//   const angleStep = 180 / (totalSteps - 1);
 
-  for (let i = 0; i < totalSteps; i++) {
-    const fraction = i / (totalSteps - 1);
-    const value = min + fraction * (max - min);
-    const angle = -90 + i * angleStep;
-    let label = undefined;
+//   for (let i = 0; i < totalSteps; i++) {
+//     const fraction = i / (totalSteps - 1);
+//     const value = min + fraction * (max - min);
+//     const angle = -90 + i * angleStep;
+//     let label = undefined;
 
-    if (i === 0) label = 'DECR';
-    else if (i === Math.floor(totalSteps / 2)) label = 'NEUTR';
-    else if (i === totalSteps - 1) label = 'INCR';
+//     if (i === 0) label = 'DECR';
+//     else if (i === Math.floor(totalSteps / 2)) label = 'NEUTR';
+//     else if (i === totalSteps - 1) label = 'INCR';
 
-    detents.push({ angle, value, ...(label && { label }) });
-  }
+//     detents.push({ angle, value, ...(label && { label }) });
+//   }
 
-  return detents;
-}
+//   return detents;
+// }
 
 export default function Test() {
   const detents: Array<Detent> = [
