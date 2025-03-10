@@ -6,7 +6,7 @@ import {
   Setter,
 } from 'solid-js';
 
-const timeout = 1000;
+const timeout = 500;
 
 /** The longer a value is changed, the faster it will change. */
 export function createSpeeder(): {

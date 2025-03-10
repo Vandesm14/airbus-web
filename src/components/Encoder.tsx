@@ -1,5 +1,4 @@
-import './Knob.scss';
-import svg from './Knob.svg';
+import './Encoder.scss';
 
 import { createMemo, createSignal } from 'solid-js';
 
@@ -14,7 +13,7 @@ export default function Encoder(props: EncoderProps) {
   const [value, setValue] = createSignal(0);
 
   function onScroll(
-    e: Event & { currentTarget: HTMLImageElement; target: Element }
+    e: Event & { currentTarget: HTMLDivElement; target: Element }
   ) {
     if (e instanceof WheelEvent) {
       e.preventDefault();
@@ -23,7 +22,7 @@ export default function Encoder(props: EncoderProps) {
       const d = delta < 0 ? 1 : -1;
 
       onChange()?.(d);
-      setValue((v) => (v += d));
+      setValue((v) => (v += d * 16));
 
       if (props.onIncrement && d === 1) props.onIncrement();
       if (props.onDecrement && d === -1) props.onDecrement();
@@ -33,8 +32,8 @@ export default function Encoder(props: EncoderProps) {
   const transform = createMemo(() => `transform: rotate(${value()}deg)`);
 
   return (
-    <div class="knob">
-      <img src={svg} alt="Knob" onwheel={onScroll} style={transform()} />
+    <div class="encoder-outer">
+      <div class="encoder" onwheel={onScroll} style={transform()} />
     </div>
   );
 }
