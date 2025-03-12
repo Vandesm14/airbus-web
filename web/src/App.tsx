@@ -1,4 +1,4 @@
-import Group from '~/components/Group';
+import Group from 'web/src/components/Group';
 import { createEngine, tick, toggleButton } from './engine';
 import Button from './components/Button';
 import { createEffect, createSignal, onMount } from 'solid-js';
