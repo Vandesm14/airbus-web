@@ -12,7 +12,7 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["web/src/*"],
-      "@engine/*": ["engine/pkg/*"]
+      "@engine/*": ["engine/*"]
     }
   }
 }
