@@ -13,3 +13,4 @@ client-web/dist/
 # Build
 dist/
 target/
+engine/pkg/
