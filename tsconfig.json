@@ -11,7 +11,8 @@
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "~/*": ["web/src/*"]
+      "~/*": ["web/src/*"],
+      "@engine/*": ["engine/pkg/*"]
     }
   }
 }
