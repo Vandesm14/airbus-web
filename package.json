@@ -9,7 +9,8 @@
     "web:build": "pnpm --dir web build",
     "web:preview": "pnpm --dir web preview",
     "web:check": "pnpm --dir web check",
-    "engine:build": "wasm-pack build --target web engine"
+    "engine:build": "wasm-pack build --target web engine",
+    "engine:bindings": "cargo test export_bindings"
   },
   "devDependencies": {
     "@tsconfig/strictest": "^2.0.5",
