@@ -1,3 +1,5 @@
+pub mod components;
+
 // use map_range::MapRange;
 
 // pub trait Tick {
