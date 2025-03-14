@@ -1,24 +1,24 @@
+use chrono::Duration;
 use leptos::prelude::*;
-use leptos_use::use_timestamp;
 
 pub fn use_acceleration(
   base_increment: f64,
-  timeout_ms: f64,
+  timeout_ms: Duration,
 ) -> impl Fn() -> f64 {
-  let timestamp = use_timestamp();
-  let (last_time, set_last_time) = signal(timestamp.get());
+  let (last_time, set_last_time) = signal(chrono::Local::now());
 
   move || {
-    let now = timestamp.get();
+    let now = chrono::Local::now();
     let diff = now - last_time.get();
-    let diff = diff * 1000.0;
 
     set_last_time.set(now);
 
-    if diff > timeout_ms || diff < 1.0 {
+    if diff > timeout_ms || diff < Duration::milliseconds(1) {
       base_increment
     } else {
-      (timeout_ms / diff as f64).powi(2) * base_increment
+      (timeout_ms.num_milliseconds() as f64 / diff.num_milliseconds() as f64)
+        .powf(2.0)
+        * base_increment
     }
   }
 }

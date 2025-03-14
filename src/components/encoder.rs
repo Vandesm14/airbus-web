@@ -9,6 +9,8 @@ pub fn Encoder(
   let (value, set_value) = signal(0);
 
   let on_scroll = move |ev: web_sys::WheelEvent| {
+    println!("wheel evt: {:?}", ev);
+
     ev.prevent_default();
 
     let delta = ev.delta_y();
