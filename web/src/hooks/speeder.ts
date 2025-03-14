@@ -1,60 +1,32 @@
-import {
-  Accessor,
-  createEffect,
-  createMemo,
-  createSignal,
-  Setter,
-} from 'solid-js';
+import { createSignal } from 'solid-js';
 
-const timeout = 400;
-
-/** The longer a value is changed, the faster it will change. */
-export function createSpeeder(): {
-  value: Accessor<number>;
-  setValue: Setter<number>;
-  increment: () => void;
-  decrement: () => void;
-} {
-  const [value, setValue] = createSignal(0);
-
+/**
+ * Creates an acceleration function that increases a multiplier when called in rapid succession.
+ * The faster the returned function is invoked, the higher the multiplier grows.
+ *
+ * @param {number} [baseIncrement=0.1] - The minimum multiplier when calls are infrequent.
+ * @param {number} [timeout=100] - The time threshold (in milliseconds) after which the multiplier resets to the base increment.
+ * @returns {() => number} - A function that, when called, returns a dynamically adjusted multiplier based on call frequency.
+ */
+export function createAcceleration(
+  baseIncrement = 0.1,
+  timeout = 100
+): () => number {
   const [lastTime, setLastTime] = createSignal(0);
-  const [sprintTime, setSprintTime] = createSignal(1);
 
-  const speed = createMemo(() => {
-    const diff = lastTime() - sprintTime();
+  return () => {
+    const now = Date.now();
+    const diff = now - lastTime();
 
-    if (diff < 1000) {
-      return 1;
-    } else if (diff < 2000) {
-      return 2;
-    } else if (diff < 3000) {
-      return 5;
-    } else if (diff < 4000) {
-      return 10;
+    setLastTime(now);
+
+    if (diff > timeout) {
+      return baseIncrement;
+    } else if (diff < 1) {
+      // Handles really small values (decimals, zero, and negatives)
+      return baseIncrement;
     } else {
-      return 50;
+      return Math.pow(timeout / diff, 2) * baseIncrement;
     }
-  });
-
-  createEffect(() => {
-    // Trigger on value changes
-    value();
-
-    const sinceLastChange = Date.now() - lastTime();
-    if (sinceLastChange > timeout) {
-      console.log('reset');
-      setSprintTime(Date.now());
-    }
-
-    setLastTime(Date.now());
-  });
-
-  createEffect(() => {});
-
-  return {
-    value,
-    setValue,
-    increment: () => setValue((v) => v + speed()),
-    decrement: () => setValue((v) => v - speed()),
   };
 }

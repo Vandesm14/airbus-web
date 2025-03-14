@@ -4,10 +4,13 @@ import Button from './components/Button';
 import { createEffect, createSignal, onMount } from 'solid-js';
 import WithLabel from './components/WithLabel';
 import SevenSegment from './components/SevenSegment';
+import Encoder from './components/Encoder';
+import { createAcceleration } from './hooks/speeder';
 
 export default function App() {
   const [lastTick, setLastTick] = createSignal(Date.now());
   const [engine, setEngine] = createEngine();
+  const speeder = createAcceleration();
 
   const tickRate = 1000 / 30;
 
@@ -21,6 +24,13 @@ export default function App() {
       setLastTick(now);
     }, tickRate);
   });
+
+  const onSetPointChange = (direction: number) => {
+    setEngine((e) => {
+      e.ng_set_point += speeder() * direction;
+      return e;
+    });
+  };
 
   return (
     <>
@@ -47,6 +57,7 @@ export default function App() {
         <Group direction="row" no_pad>
           <WithLabel label="SET POINT">
             <SevenSegment value={engine().ng_set_point.toFixed(1)} digits={4} />
+            <Encoder onChange={onSetPointChange} />
           </WithLabel>
         </Group>
       </Group>
