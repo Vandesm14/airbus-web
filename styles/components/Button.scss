@@ -1,5 +1,5 @@
-@import 'styles/vars.scss';
-@import 'styles/fonts.scss';
+@use '../shared/vars.scss' as *;
+@use '../shared/fonts.scss';
 
 .btn {
   border-radius: 3px;

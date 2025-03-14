@@ -1,4 +1,4 @@
-@import 'styles/vars.scss';
+@use '../shared/vars.scss' as *;
 
 .label {
   display: flex;
