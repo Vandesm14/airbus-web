@@ -2,16 +2,9 @@
 node_modules/
 client-web/dist/
 
-# Editors
-.vscode/
-.zed/
-.obsidian/
-
 # Environment
 .env
 
 # Build
 dist/
 target/
-engine/pkg/
-engine/bindings/
