@@ -1,3 +1,7 @@
-[workspace]
-resolver = "2"
-members = ["engine"]
+[package]
+name = "leptos-tutorial"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+leptos = { version = "0.7.7", features = ["csr"] }
