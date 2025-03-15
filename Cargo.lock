@@ -18,6 +18,7 @@ dependencies = [
  "chrono",
  "console_error_panic_hook",
  "leptos",
+ "map-range",
  "web-sys",
 ]
 
@@ -961,6 +962,15 @@ dependencies = [
  "proc-macro-utils",
  "proc-macro2",
  "quote",
+]
+
+[[package]]
+name = "map-range"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bffa558d7f51b549670be5ff6db164cd9be428c035cbf4e3f782db3da66845a5"
+dependencies = [
+ "num-traits",
 ]
 
 [[package]]

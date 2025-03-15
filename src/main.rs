@@ -1,7 +1,8 @@
 use airbus_web::{
   components::{
+    button::{Button, ButtonProps, Kind, Top},
     encoder::Encoder,
-    group::{Direction, Group},
+    group::{Direction, Group, GroupProps},
     seven_segment::SevenSegment,
   },
   hooks::acceleration::use_acceleration,
@@ -24,10 +25,19 @@ fn App() -> impl IntoView {
 
   let fixed_value = Memo::new(move |_| format!("{:.1}", value.get()));
 
+  let (button, set_button) = signal(false);
+  let (top, _) = signal(Top::None);
+  let toggle_button = Callback::new(move |_| set_button.update(|b| *b = !*b));
+
   return view! {
-    <Group direction={Direction::Column}>
-      <SevenSegment value={fixed_value} digits=4 />
-      <Encoder on_change={Callback::new(change)} />
+    <Group direction={Direction::Row}>
+      <Group direction={Direction::Column}>
+        <Button on=button on_click={toggle_button} top=top />
+      </Group>
+      <Group direction={Direction::Column}>
+        <SevenSegment value={fixed_value} digits=4 />
+        <Encoder on_change={Callback::new(change)} />
+      </Group>
     </Group>
   };
 }
