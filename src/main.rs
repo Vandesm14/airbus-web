@@ -1,14 +1,14 @@
 use airbus_web::{
   components::{
-    button::{Button, ButtonProps, Kind, Top},
+    button::{Button, Top},
     encoder::Encoder,
-    group::{Direction, Group, GroupProps},
+    group::{Direction, Group},
     seven_segment::SevenSegment,
   },
   hooks::acceleration::use_acceleration,
 };
 use chrono::Duration;
-use leptos::prelude::*;
+use leptos::{logging, prelude::*};
 
 #[component]
 fn App() -> impl IntoView {
@@ -26,17 +26,24 @@ fn App() -> impl IntoView {
   let fixed_value = Memo::new(move |_| format!("{:.1}", value.get()));
 
   let (button, set_button) = signal(false);
-  let (top, _) = signal(Top::None);
-  let toggle_button = Callback::new(move |_| set_button.update(|b| *b = !*b));
+  let toggle_button = Callback::new(move |_| {
+    logging::log!("click");
+    set_button.update(|b| *b = !*b)
+  });
+
+  let top = Signal::derive(move || match button.get() {
+    true => Top::Avail,
+    false => Top::None,
+  });
 
   return view! {
-    <Group direction={Direction::Row}>
-      <Group direction={Direction::Column}>
-        <Button on=button on_click={toggle_button} top=top />
+    <Group direction=Direction::Row>
+      <Group direction=Direction::Column>
+        <Button on=button on_click=toggle_button top=top />
       </Group>
-      <Group direction={Direction::Column}>
-        <SevenSegment value={fixed_value} digits=4 />
-        <Encoder on_change={Callback::new(change)} />
+      <Group direction=Direction::Column>
+        <SevenSegment value=fixed_value digits=4 />
+        <Encoder on_change=Callback::new(change) />
       </Group>
     </Group>
   };

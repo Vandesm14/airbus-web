@@ -1,4 +1,4 @@
-use leptos::prelude::*;
+use leptos::{attr::AttributeValue, prelude::*};
 
 #[derive(Debug, Clone, Copy, Default)]
 pub enum Kind {
@@ -39,13 +39,10 @@ impl core::fmt::Display for Top {
 pub fn Button(
   #[prop(optional)] kind: Kind,
 
-  top: impl Get<Value = Top> + 'static + Copy,
-  on: impl Get<Value = bool> + 'static + Copy,
-  // This is used within the view! macro
-  #[allow(unused_variables)] on_click: Callback<()>,
+  #[prop(into)] top: Signal<Top>,
+  #[prop(into)] on: Signal<bool>,
+  on_click: Callback<()>,
 ) -> impl IntoView {
-  let on_click = move |_| {};
-
   let top_class = move || format!("top {}", top.get());
   let top_text = move || top.get().to_string().to_uppercase();
 
@@ -69,11 +66,15 @@ pub fn Button(
     )
   };
 
+  let handle_click = move |_| {
+    on_click.run(());
+  };
+
   view! {
     <div class="btn">
-      <button class="inner" on:mousedown={on_click}>
-        <span class=top_class()>{top_text()}</span>
-        <span class=bottom_class()>{bottom_text()}</span>
+      <button class="inner" on:mousedown=handle_click>
+        <span class=top_class>{top_text}</span>
+        <span class=bottom_class>{bottom_text}</span>
       </button>
     </div>
   }
