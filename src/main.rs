@@ -6,7 +6,6 @@ use airbus_web::{
     seven_segment::SevenSegment,
   },
   engine::{Engine, Tick},
-  hooks::acceleration::use_acceleration,
 };
 use chrono::Duration;
 use leptos::{logging, prelude::*};
@@ -17,10 +16,10 @@ const TICK_RATE: f32 = 1000.0 / 30.0;
 fn App() -> impl IntoView {
   let (last, set_last) = signal(chrono::Local::now());
   let (engine, set_engine) = signal(Engine::default());
-  let acceleration = use_acceleration(0.1, Duration::milliseconds(100));
+  // let acceleration = use_acceleration(0.1, Duration::milliseconds(100));
 
   let change = move |direction: i32| {
-    let accel = acceleration() * direction as f32;
+    let accel = direction as f32 * 0.1;
     set_engine.update(|e| {
       e.reactor.control_rods =
         ((e.reactor.control_rods + accel) * 10.0).round() / 10.0;
