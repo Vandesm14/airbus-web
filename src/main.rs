@@ -5,6 +5,7 @@ use airbus_web::{
     group::{Direction, Group},
     seven_segment::SevenSegment,
   },
+  engine::{Engine, Tick},
   hooks::acceleration::use_acceleration,
 };
 use chrono::Duration;
@@ -12,18 +13,36 @@ use leptos::{logging, prelude::*};
 
 #[component]
 fn App() -> impl IntoView {
-  let (value, set_value) = signal(0.0_f32);
+  let (last, set_last) = signal(chrono::Local::now());
+  let (engine, set_engine) = signal(Engine::default());
   let acceleration = use_acceleration(0.1, Duration::milliseconds(100));
 
   let change = move |direction: i32| {
     let accel = acceleration() * direction as f32;
-    set_value.update(|v| {
-      *v += accel;
-      *v = (*v * 10.0).round() / 10.0;
+    set_engine.update(|e| {
+      e.reactor.control_rods =
+        ((e.reactor.control_rods + accel) * 10.0).round() / 10.0;
+      e.reactor.control_rods = e.reactor.control_rods.clamp(0.0, 100.0);
     });
   };
 
-  let fixed_value = Memo::new(move |_| format!("{:.1}", value.get()));
+  let control_rods =
+    Signal::derive(move || format!("{:.1}", engine.get().reactor.control_rods));
+  let temperature =
+    Signal::derive(move || format!("{:.1}", engine.get().reactor.temperature));
+
+  set_interval(
+    move || {
+      let now = chrono::Local::now();
+      if now - last.get() >= Duration::milliseconds(1000 / 30) {
+        logging::log!("tick");
+        set_engine.update(|e| e.tick());
+
+        set_last.set(now);
+      }
+    },
+    core::time::Duration::from_millis(1000 / 30),
+  );
 
   let (button, set_button) = signal(false);
   let toggle_button = Callback::new(move |_| {
@@ -42,7 +61,8 @@ fn App() -> impl IntoView {
         <Button on=button on_click=toggle_button top=top />
       </Group>
       <Group direction=Direction::Column>
-        <SevenSegment value=fixed_value digits=4 />
+        <SevenSegment value=temperature digits=5 />
+        <SevenSegment value=control_rods digits=4 />
         <Encoder on_change=Callback::new(change) />
       </Group>
     </Group>

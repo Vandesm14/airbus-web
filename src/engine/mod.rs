@@ -7,21 +7,21 @@ pub trait Tick {
 #[derive(Debug, Clone, PartialEq)]
 pub struct Reactor {
   pub control_rods: f32,
-  pub temp: f32,
+  pub temperature: f32,
 }
 
 impl Default for Reactor {
   fn default() -> Self {
     Self {
       control_rods: 100.0,
-      temp: 0.0,
+      temperature: 0.0,
     }
   }
 }
 
 impl Tick for Reactor {
   fn tick(&mut self) {
-    self.temp = self.control_rods.map_range(100.0..90.0, 0.0..400.0)
+    self.temperature = self.control_rods.map_range(100.0..90.0, 0.0..412.0)
   }
 }
 
@@ -35,7 +35,7 @@ impl Reactor {
   }
 
   pub fn temp(&self) -> f32 {
-    self.temp
+    self.temperature
   }
 }
 
