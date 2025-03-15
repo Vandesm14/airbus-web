@@ -11,6 +11,8 @@ use airbus_web::{
 use chrono::Duration;
 use leptos::{logging, prelude::*};
 
+const TICK_RATE: f32 = 1000.0 / 30.0;
+
 #[component]
 fn App() -> impl IntoView {
   let (last, set_last) = signal(chrono::Local::now());
@@ -34,14 +36,14 @@ fn App() -> impl IntoView {
   set_interval(
     move || {
       let now = chrono::Local::now();
-      if now - last.get() >= Duration::milliseconds(1000 / 30) {
-        logging::log!("tick");
-        set_engine.update(|e| e.tick());
+      if now - last.get() >= Duration::milliseconds(TICK_RATE as i64) {
+        let dt = (now - last.get()).num_milliseconds() as f32 / 1000.0;
+        set_engine.update(|e| e.tick(dt));
 
         set_last.set(now);
       }
     },
-    core::time::Duration::from_millis(1000 / 30),
+    core::time::Duration::from_millis(TICK_RATE as u64),
   );
 
   let (button, set_button) = signal(false);
