@@ -1,5 +1,5 @@
 use leptos::{html::Canvas, prelude::*};
-use web_sys::{CanvasRenderingContext2d, wasm_bindgen::JsCast};
+use web_sys::{wasm_bindgen::JsCast, CanvasRenderingContext2d};
 
 #[derive(Clone, Copy)]
 struct Segments {
@@ -43,7 +43,7 @@ const OFF_COLOR: &str = "#300";
 
 #[component]
 pub fn SevenSegment(
-  value: impl Get<Value = String> + 'static,
+  #[prop(into)] value: Signal<String>,
   #[prop(optional)] digits: Option<usize>,
 ) -> impl IntoView {
   let canvas_ref = NodeRef::<Canvas>::new();
@@ -154,8 +154,8 @@ pub fn SevenSegment(
   view! {
     <canvas
       node_ref=canvas_ref
-      width={(size * 2.0 + size * ratio + padding) * digits.unwrap_or(1) as f64 + padding}
-      height={size * 3.0 + size * ratio * 2.0 + padding * 2.0}
+      width=(size * 2.0 + size * ratio + padding) * digits.unwrap_or(1) as f64 + padding
+      height=size * 3.0 + size * ratio * 2.0 + padding * 2.0
     />
   }
 }

@@ -1,4 +1,4 @@
-use leptos::{attr::AttributeValue, prelude::*};
+use leptos::prelude::*;
 
 #[derive(Debug, Clone, Copy, Default)]
 pub enum Kind {
