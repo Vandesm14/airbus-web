@@ -29,6 +29,8 @@ fn App() -> impl IntoView {
 
   let control_rods =
     Signal::derive(move || format!("{:.1}", engine.get().reactor.control_rods));
+  let energy =
+    Signal::derive(move || format!("{:.1}", engine.get().reactor.energy));
   let temperature =
     Signal::derive(move || format!("{:.1}", engine.get().reactor.temperature));
 
@@ -62,6 +64,7 @@ fn App() -> impl IntoView {
         <Button on=button on_click=toggle_button top=top />
       </Group>
       <Group direction=Direction::Column>
+        <SevenSegment value=energy digits=4 />
         <SevenSegment value=temperature digits=5 />
         <SevenSegment value=control_rods digits=4 />
         <Encoder on_change=Callback::new(change) />
