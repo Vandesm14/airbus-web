@@ -30,6 +30,8 @@ fn App() -> impl IntoView {
 
   let control_rods =
     Signal::derive(move || format!("{:.1}", engine.get().reactor.control_rods));
+  let reactivity =
+    Signal::derive(move || format!("{:.1}", engine.get().reactor.reactivity));
   let energy =
     Signal::derive(move || format!("{:.1}", engine.get().reactor.energy));
   let temperature =
@@ -65,6 +67,9 @@ fn App() -> impl IntoView {
         <Button on=button on_click=toggle_button top=top />
       </Group>
       <Group direction=Direction::Column>
+        <WithLabel label="REACTIVITY".into()>
+          <SevenSegment value=reactivity digits=3 />
+        </WithLabel>
         <WithLabel label="ENERGY".into()>
           <SevenSegment value=energy digits=4 />
         </WithLabel>
