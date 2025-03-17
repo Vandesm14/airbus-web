@@ -1,6 +1,6 @@
 use airbus_web::{
   components::{
-    button::{Button, Top},
+    button::{Button, Kind, Top},
     encoder::Encoder,
     group::{Direction, Group},
     seven_segment::SevenSegment,
@@ -31,11 +31,11 @@ fn App() -> impl IntoView {
   let control_rods =
     Signal::derive(move || format!("{:.1}", engine.get().reactor.control_rods));
   let reactivity =
-    Signal::derive(move || format!("{:.1}", engine.get().reactor.reactivity));
-  let energy =
-    Signal::derive(move || format!("{:.1}", engine.get().reactor.energy));
+    Signal::derive(move || format!("{:.2}", engine.get().reactor.reactivity));
   let temperature =
     Signal::derive(move || format!("{:.1}", engine.get().reactor.temperature));
+
+  let scram = Signal::derive(move || engine.get().reactor.scram);
 
   set_interval(
     move || {
@@ -50,35 +50,29 @@ fn App() -> impl IntoView {
     core::time::Duration::from_millis(TICK_RATE as u64),
   );
 
-  let (button, set_button) = signal(false);
   let toggle_button = Callback::new(move |_| {
-    logging::log!("click");
-    set_button.update(|b| *b = !*b)
-  });
-
-  let top = Signal::derive(move || match button.get() {
-    true => Top::Avail,
-    false => Top::None,
+    set_engine.update(|e| e.reactor.scram = !e.reactor.scram);
   });
 
   return view! {
     <Group direction=Direction::Row>
       <Group direction=Direction::Column>
-        <Button on=button on_click=toggle_button top=top />
-      </Group>
-      <Group direction=Direction::Column>
         <WithLabel label="REACTIVITY".into()>
-          <SevenSegment value=reactivity digits=3 />
-        </WithLabel>
-        <WithLabel label="ENERGY".into()>
-          <SevenSegment value=energy digits=4 />
+          <SevenSegment value=reactivity digits=4 />
         </WithLabel>
         <WithLabel label="TEMP".into()>
           <SevenSegment value=temperature digits=5 />
         </WithLabel>
         <WithLabel label="RODS".into()>
           <SevenSegment value=control_rods digits=4 />
-          <Encoder on_change=Callback::new(change) />
+          <Group direction=Direction::Row>
+            <WithLabel label="CTRL".into()>
+              <Encoder on_change=Callback::new(change) />
+            </WithLabel>
+            <WithLabel label="SCRAM".into()>
+              <Button on=scram on_click=toggle_button top=Top::None kind=Kind::IndicateOn />
+            </WithLabel>
+          </Group>
         </WithLabel>
       </Group>
     </Group>

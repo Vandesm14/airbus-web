@@ -12,6 +12,8 @@ pub struct Reactor {
   pub energy: f32,
   pub temperature: f32,
   pub reactivity: f32,
+
+  pub scram: bool,
 }
 
 impl Default for Reactor {
@@ -21,18 +23,27 @@ impl Default for Reactor {
       energy: 0.0,
       temperature: 0.0,
       reactivity: 0.0,
+
+      scram: false,
     }
   }
 }
 
 impl Tick for Reactor {
   fn tick(&mut self, dt: f32) {
+    self.tick_scram(dt);
     self.tick_energy(dt);
     self.tick_temperature(dt);
   }
 }
 
 impl Reactor {
+  fn tick_scram(&mut self, _dt: f32) {
+    if self.scram {
+      self.control_rods = 100.0;
+    }
+  }
+
   fn tick_energy(&mut self, dt: f32) {
     let expected = self.control_rods.map_range(100.0..90.0, 0.0..100.0);
 
